@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  use_doorkeeper
+  devise_for :users, controllers: { 
+    sessions: 'users/sessions', 
+    registrations: 'users/registrations',
+    passwords: 'users/passwords'
+  }
+  resources :dance_events
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  root "dance_events#index"
 end

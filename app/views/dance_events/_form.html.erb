@@ -1,0 +1,17 @@
+<%= form_with(model: dance_event) do |form| %>
+  <% if dance_event.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(dance_event.errors.count, "error") %> prohibited this dance_event from being saved:</h2>
+
+      <ul>
+        <% dance_event.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

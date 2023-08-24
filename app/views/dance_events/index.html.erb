@@ -1,0 +1,12 @@
+<h1>Dance events</h1>
+
+<div id="dance_events">
+  <% @dance_events.each do |dance_event| %>
+    <%= render dance_event %>
+    <p>
+      <%= link_to "Show this dance event", dance_event %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New dance event", new_dance_event_path %>
