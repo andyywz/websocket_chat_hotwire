@@ -22,6 +22,7 @@ class DanceEventsController < ApplicationController
   # POST /dance_events or /dance_events.json
   def create
     @dance_event = DanceEvent.new(dance_event_params)
+    @dance_event.user_id = current_user.id
 
     respond_to do |format|
       if @dance_event.save
@@ -65,6 +66,8 @@ class DanceEventsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def dance_event_params
-      params.fetch(:dance_event, {})
+      params.fetch(:dance_event, {}).permit(
+        :name, :description, :start_date, :end_date, :country, :city, :website
+      )
     end
 end

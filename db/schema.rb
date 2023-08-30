@@ -10,12 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_21_183849) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_29_160151) do
   create_table "dance_events", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.string "country"
+    t.string "city"
+    t.string "website"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_dance_events_on_user_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -69,11 +76,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_183849) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username", null: false
+    t.text "biography"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["username"], name: "index_users_on_username"
   end
 
+  add_foreign_key "dance_events", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"

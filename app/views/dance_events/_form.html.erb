@@ -12,6 +12,27 @@
   <% end %>
 
   <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+    
+    <%= form.label :start_date %>
+    <%= form.date_field :start_date %>
+
+    <%= form.label :end_date %>
+    <%= form.date_field :end_date %>
+
+    <%= form.label :country %>
+    <%= form.text_field :country %>
+
+    <%= form.label :city %>
+    <%= form.text_field :city %>
+    
+    <%= form.label :website %>
+    <%= form.text_field :website %>
+
     <%= form.submit %>
   </div>
 <% end %>
