@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_29_160151) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_09_055947) do
   create_table "dance_events", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "start_date"
     t.date "end_date"
-    t.string "country"
+    t.string "country", null: false
     t.string "city"
     t.string "website"
-    t.integer "user_id"
+    t.integer "user_id", null: false
     t.index ["user_id"], name: "index_dance_events_on_user_id"
   end
 
