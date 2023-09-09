@@ -6,27 +6,27 @@ describe "Authentication", type: :system do
   end
 
   it "allows users to navigate to the home page" do
-    visit "/"
+    visit root_path
     expect(page).to have_content("Dance Events")
   end
   
   it "redirects users to the sign in page when visiting the new dance event page" do
-    visit "/dance_events/new"
+    visit new_dance_event_path
 
     expect(page).to have_content("You need to sign in or sign up before continuing")
-    expect(page).to have_current_path("/users/sign_in")
+    expect(page).to have_current_path(new_user_session_path)
   end
 
   it "redirects users to the sign in page when visiting the edit dance event page" do
     dance_event = FactoryBot.build_stubbed(:dance_event)
-    visit "/dance_events/#{dance_event.id}/edit"
+    visit edit_dance_event_path(dance_event.id)
 
     expect(page).to have_content("You need to sign in or sign up before continuing")
-    expect(page).to have_current_path("/users/sign_in")
+    expect(page).to have_current_path(new_user_session_path)
   end
 
   it "allows new users to register" do
-    visit "/"
+    visit root_path
     click_on "Sign in"
     click_on "Sign up"
     fill_in "Email", with: "test@test.com"
@@ -39,9 +39,9 @@ describe "Authentication", type: :system do
   end
 
   it "allows users to login with username" do
-    user = FactoryBot.create(:user, username: 'test', email: 'test@test.com', password: 'password')
+    user = FactoryBot.create(:user, username: 'test', password: 'password')
 
-    visit "/"
+    visit root_path
     click_on "Sign in"
     fill_in "Your email/username", with: user.username
     fill_in "Your password", with: 'password'
@@ -51,9 +51,9 @@ describe "Authentication", type: :system do
   end
 
   it "allows users to login with email" do
-    user = FactoryBot.create(:user, username: 'test', email: 'test@test.com', password: 'password')
+    user = FactoryBot.create(:user, email: 'test@test.com', password: 'password')
 
-    visit "/"
+    visit root_path
     click_on "Sign in"
     fill_in "Your email/username", with: user.email
     fill_in "Your password", with: 'password'
@@ -63,11 +63,11 @@ describe "Authentication", type: :system do
   end
 
   it "displays an error when user enters the wrong credentials" do
-    user = FactoryBot.create(:user, username: 'test', email: 'test@test.com', password: 'password')
+    user = FactoryBot.create(:user, username: 'test', password: 'password')
 
-    visit "/"
+    visit root_path
     click_on "Sign in"
-    fill_in "Your email/username", with: user.username
+    fill_in "Your email/username", with: 'test'
     fill_in "Your password", with: 'badpassword'
     click_on "Submit"
 
@@ -75,7 +75,7 @@ describe "Authentication", type: :system do
   end
 
   it "does not indicate existing email or username" do
-    visit "/"
+    visit root_path
     click_on "Sign in"
     fill_in "Your email/username", with: 'randomusername'
     fill_in "Your password", with: 'password'

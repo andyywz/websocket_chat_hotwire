@@ -1,3 +1,21 @@
+<div class="p-5">
+  <h5 class="mb-2 truncate text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= @dance_event.name %></h5>
+  <p class="text-sm font-medium text-gray-800">
+    Organizer: <a href=<%=user_path(@dance_event.organizer) %> class="text-blue-700">
+      <%= @dance_event.organizer.username %>
+    </a>
+  </p>
+  <p class="text-sm font-medium text-gray-800">
+    Dates: 
+    <time>
+      <%= @dance_event.start_date %>
+    </time> to <time>
+      <%= @dance_event.end_date %>
+    </time>
+  </p>
+  <p class="text-sm font-medium text-gray-800">Location: <%= @dance_event.location %></p>
+  <p class="my-6 h-24 line-clamp-3 md:line-clamp-4 font-normal text-gray-500 dark:text-gray-400"><%= @dance_event.description %></p>
+</div>
 
 <div>
   <%= link_to "Edit this dance event", edit_dance_event_path(@dance_event) %> |
