@@ -8,7 +8,9 @@
       <div class="text-gray-900 font-bold text-xl mb-2">
         <%= @user.username %>
       </div>
-      <a href=<%= edit_user_path(@user) %> class="text-blue-600 hover:underline">Edit</a>
+      <% if @user == current_user %>
+        <a href=<%= edit_user_path(@user) %> class="text-blue-600 hover:underline">Edit</a>
+      <% end %>
       <p class="text-gray-700 text-base">
         <%= @user.biography %>
       </p>
