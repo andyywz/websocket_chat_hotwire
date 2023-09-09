@@ -1,4 +1,5 @@
 class DanceEventsController < ApplicationController
+  before_action :authenticate_user!, only: %i[ new create edit update destroy ]
   before_action :set_dance_event, only: %i[ show edit update destroy ]
 
   # GET /dance_events or /dance_events.json

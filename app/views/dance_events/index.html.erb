@@ -4,4 +4,8 @@
   <%= render @dance_events %>
 </ul>
 
-<%= link_to "New dance event", new_dance_event_path %>
+<% if user_signed_in? %>
+  <%= link_to "New dance event", new_dance_event_path %>
+<% else %>
+  You have to be logged in to create dance events
+<% end %>

@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
-  
+  before_action :authenticate_user!, only: %i[ edit update destroy ]
   before_action :set_user, only: %i[ show edit update ]
-  
+
   # GET /users or /users.json
   def index
     @users = User.all
   end
-  
+
   # GET /users/1 or /users/1.json
   def show
     @dance_events = @user.dance_events
