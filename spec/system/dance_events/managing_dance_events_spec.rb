@@ -6,6 +6,16 @@ describe "Managing Dance Events" do
     @user = sign_in_default_user
   end
 
+  scenario 'user can view the full list of dance events' do
+    test_events = create_list(:dance_event, 6, organizer: @user)
+    
+    visit root_path
+
+    test_events.each do |ev|      
+      expect(page).to have_content(ev.name)
+    end
+  end
+  
   scenario 'user can create dance event' do
     click_on 'New dance event'
     fill_in 'Name', with: 'ILHC'
