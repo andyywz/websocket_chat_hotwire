@@ -30,8 +30,6 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 RSpec.configure do |config|
-  config.include Helpers::Authentication, type: :system
-
   # Adds url helpers into specs
   config.include Rails.application.routes.url_helpers
 

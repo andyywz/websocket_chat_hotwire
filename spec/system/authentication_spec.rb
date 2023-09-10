@@ -18,7 +18,7 @@ describe "Authentication", type: :system do
   end
 
   it "redirects users to the sign in page when visiting the edit dance event page" do
-    dance_event = FactoryBot.build_stubbed(:dance_event)
+    dance_event = build_stubbed(:dance_event)
     visit edit_dance_event_path(dance_event.id)
 
     expect(page).to have_content("You need to sign in or sign up before continuing")
@@ -39,7 +39,7 @@ describe "Authentication", type: :system do
   end
 
   it "allows users to login with username" do
-    user = FactoryBot.create(:user, username: 'test', password: 'password')
+    user = create(:user, username: 'test', password: 'password')
 
     visit root_path
     click_on "Sign in"
@@ -51,7 +51,7 @@ describe "Authentication", type: :system do
   end
 
   it "allows users to login with email" do
-    user = FactoryBot.create(:user, email: 'test@test.com', password: 'password')
+    user = create(:user, username: 'test', email: 'test@test.com', password: 'password')
 
     visit root_path
     click_on "Sign in"
@@ -63,7 +63,7 @@ describe "Authentication", type: :system do
   end
 
   it "displays an error when user enters the wrong credentials" do
-    user = FactoryBot.create(:user, username: 'test', password: 'password')
+    user = create(:user, username: 'test', password: 'password')
 
     visit root_path
     click_on "Sign in"
