@@ -2,13 +2,13 @@
 <%- input_classes = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" %>
 <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
   <%= form_with model: resource, url: session_path(resource_name) do |f| %>
-    <h5 class="mb-6 text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h5>
+    <h5 class="mb-6 text-xl font-medium text-gray-900 dark:text-white">Sign in</h5>
     <div>
-      <%= f.label :login, "Your email/username", class: input_label_classes %>
+      <%= f.label :login, "Email/Username", class: input_label_classes %>
       <%= f.text_field :login, class: input_classes, required: true %>
     </div>
     <div>
-      <%= f.label :password, "Your password", class: input_label_classes %>
+      <%= f.label :password, "Password", class: input_label_classes %>
       <%= f.password_field :password, class: input_classes, required: true %>
     </div>
     <div class="flex items-start">
