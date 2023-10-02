@@ -22,6 +22,10 @@
       <% end %>
       <%= f.password_field :password, class: input_classes, required: true %>
     </div>
+    <div>
+      <%= f.label :password_confirmation, "Password confirmation", class: input_label_classes %>
+      <%= f.password_field :password_confirmation, class: input_classes, required: true %>
+    </div>
     <%= f.submit "Submit", class: "mb-2 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
     <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
       Already registered? <%= link_to "Log in", new_session_path(resource_name), class: "text-blue-700 hover:underline dark:text-blue-500" %>
