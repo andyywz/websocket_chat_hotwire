@@ -1,31 +1,28 @@
 <%- input_label_classes = "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-<%- input_classes = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
-  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
-
-<h2>Sign in</h2>
-
-<%= form_with model: resource, url: session_path(resource_name) do |f| %>
- <div class="mb-6">
-    <%= f.label :login, "Your email/username", class: input_label_classes %>
-    <%= f.text_field :login, class: input_classes, placeholder: "name@flowbite.com", required: true %>
-  </div>
-  <div class="mb-6">
-    <%= f.label :password, "Your password", class: input_label_classes %>
-    <%= f.password_field :password, class: input_classes, required: true %>
-  </div>
-  <div class="flex items-start mb-6">
-    <div class="flex items-center h-5">
-      <%= f.check_box :remember, class: "w-4 h-4 border border-gray-300 rounded bg-gray-50 
-        focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 
-        dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" %>
+<%- input_classes = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" %>
+<div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+  <%= form_with model: resource, url: session_path(resource_name) do |f| %>
+    <h5 class="mb-6 text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h5>
+    <div>
+      <%= f.label :login, "Your email/username", class: input_label_classes %>
+      <%= f.text_field :login, class: input_classes, placeholder: "name@flowbite.com", required: true %>
     </div>
-    <%= f.label :remember, "Remember me", class: "ml-2 text-sm font-medium text-gray-900 dark:text-gray-300" %>
-  </div>
-  
-  <%= f.submit 'Submit', class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
-    focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 
-    dark:hover:bg-blue-700 dark:focus:ring-blue-800" %> 
-<% end %>
-
-<%= render "users/shared/links" %>
+    <div>
+      <%= f.label :password, "Your password", class: input_label_classes %>
+      <%= f.password_field :password, class: input_classes, required: true %>
+    </div>
+    <div class="flex items-start">
+      <div class="flex items-start">
+        <div class="flex items-center h-5">
+          <%= f.check_box :remember, class: "w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" %>
+        </div>
+        <%= f.label :remember, "Remember me", class: "ml-2 text-sm font-medium text-gray-900 dark:text-gray-300" %>
+      </div>
+      <%= link_to "Forgot your password?", new_password_path(resource_name), class: "ml-2 mb-6 text-sm text-blue-700 hover:underline dark:text-blue-500" %>
+    </div>
+    <%= f.submit 'Submit', class: "mb-2 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
+    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+      Not registered? <%= link_to "Create account", new_registration_path(resource_name), class: "text-blue-700 hover:underline dark:text-blue-500" %>
+    </div>
+  <% end %>
+</div>
