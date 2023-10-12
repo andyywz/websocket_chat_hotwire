@@ -16,10 +16,9 @@
   <p class="text-sm font-medium text-gray-800">Location: <%= @dance_event.location %></p>
   <p class="my-6 h-24 line-clamp-3 md:line-clamp-4 font-normal text-gray-500 dark:text-gray-400"><%= @dance_event.description %></p>
 </div>
-
-<div>
-  <%= link_to "Edit this dance event", edit_dance_event_path(@dance_event) %> |
-  <%= link_to "Back to dance events", dance_events_path %>
-
-  <%= button_to "Destroy this dance event", @dance_event, method: :delete %>
-</div>
+<% if @dance_event.organizer == current_user %>
+  <div>
+    <%= link_to "Edit this dance event", edit_dance_event_path(@dance_event) %> |
+    <%= button_to "Destroy this dance event", @dance_event, method: :delete %>
+  </div>
+<% end %>
