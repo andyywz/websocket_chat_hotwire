@@ -1,0 +1,9 @@
+<h1>Add users to <%= @dance_event.name %></h1>
+<%= form_with(model: @participant) do |form| %>
+  <div>
+    <%= form.hidden_field :dance_event_id, value: @dance_event.id %>
+    <%= form.label :user_id, "Users list" %>
+    <%= form.select :user_id, users_options(@dance_event.participant_ids) %>
+    <%= form.submit "Add" %>
+  </div>
+<% end %>

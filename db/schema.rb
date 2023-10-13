@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_09_055947) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_12_165355) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "dance_event_participants", force: :cascade do |t|
+    t.bigint "dance_event_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dance_event_id", "user_id"], name: "index_dance_event_participants_on_dance_event_id_and_user_id", unique: true
+    t.index ["dance_event_id"], name: "index_dance_event_participants_on_dance_event_id"
+    t.index ["user_id"], name: "index_dance_event_participants_on_user_id"
+  end
 
   create_table "dance_events", force: :cascade do |t|
     t.string "name", null: false
@@ -24,13 +34,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_055947) do
     t.string "country", null: false
     t.string "city"
     t.string "website"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_dance_events_on_user_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
-    t.integer "resource_owner_id", null: false
-    t.integer "application_id", null: false
+    t.bigint "resource_owner_id", null: false
+    t.bigint "application_id", null: false
     t.string "token", null: false
     t.integer "expires_in", null: false
     t.text "redirect_uri", null: false
@@ -43,8 +53,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_055947) do
   end
 
   create_table "oauth_access_tokens", force: :cascade do |t|
-    t.integer "resource_owner_id"
-    t.integer "application_id", null: false
+    t.bigint "resource_owner_id"
+    t.bigint "application_id", null: false
     t.string "token", null: false
     t.string "refresh_token"
     t.integer "expires_in"
@@ -82,9 +92,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_09_055947) do
     t.text "biography"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["username"], name: "index_users_on_username"
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "dance_event_participants", "dance_events"
+  add_foreign_key "dance_event_participants", "users"
   add_foreign_key "dance_events", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"

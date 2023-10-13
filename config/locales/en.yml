@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  dance_event_participants:
+    validations:
+      one_user_per_dance_event: "can only have 1 registration per dance event"

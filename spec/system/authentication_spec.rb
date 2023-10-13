@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Authentication", type: :system do
+describe "Authentication" do
   before { driven_by(:rack_test) }
 
   it "allows users to navigate to the home page" do
@@ -12,7 +12,7 @@ describe "Authentication", type: :system do
     visit new_dance_event_path
 
     expect(page).to have_content(
-      "You need to sign in or sign up before continuing"
+      "You need to sign in or sign up before continuing",
     )
     expect(page).to have_current_path(new_user_session_path)
   end
@@ -22,7 +22,7 @@ describe "Authentication", type: :system do
     visit edit_dance_event_path(dance_event.id)
 
     expect(page).to have_content(
-      "You need to sign in or sign up before continuing"
+      "You need to sign in or sign up before continuing",
     )
     expect(page).to have_current_path(new_user_session_path)
   end
@@ -58,7 +58,7 @@ describe "Authentication", type: :system do
         :user,
         username: "test",
         email: "test@test.com",
-        password: "password"
+        password: "password",
       )
 
     visit root_path

@@ -1,6 +1,6 @@
 class DanceEventsController < ApplicationController
-  before_action :authenticate_user!, only: %i[ new create edit update destroy ]
-  before_action :set_dance_event, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: %i[new create edit update destroy]
+  before_action :set_dance_event, only: %i[show edit update destroy]
 
   # GET /dance_events or /dance_events.json
   def index
@@ -8,8 +8,7 @@ class DanceEventsController < ApplicationController
   end
 
   # GET /dance_events/1 or /dance_events/1.json
-  def show
-  end
+  def show; end
 
   # GET /dance_events/new
   def new
@@ -17,8 +16,7 @@ class DanceEventsController < ApplicationController
   end
 
   # GET /dance_events/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /dance_events or /dance_events.json
   def create
@@ -60,15 +58,16 @@ class DanceEventsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_dance_event
-      @dance_event = DanceEvent.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def dance_event_params
-      params.fetch(:dance_event, {}).permit(
-        :name, :description, :start_date, :end_date, :country, :city, :website
-      )
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_dance_event
+    @dance_event = DanceEvent.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def dance_event_params
+    params.fetch(:dance_event, {}).permit(
+      :name, :description, :start_date, :end_date, :country, :city, :website
+    )
+  end
 end
