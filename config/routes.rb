@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :dance_event_participants, only: [:new]
   end
 
-  resources :dance_event_participants, only: [:create]
+  resources :dance_event_participants, only: [:create, :destroy]
 
   root "dance_events#index"
 end

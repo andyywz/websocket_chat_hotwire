@@ -8,7 +8,9 @@ class DanceEventsController < ApplicationController
   end
 
   # GET /dance_events/1 or /dance_events/1.json
-  def show; end
+  def show
+    @participants = @dance_event.dance_event_participants.includes(:user)
+  end
 
   # GET /dance_events/new
   def new

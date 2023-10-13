@@ -20,9 +20,13 @@ class DanceEventParticipantsController < ApplicationController
   end
 
   def destroy
-    DanceEventParticipant.find_by(dance_event: params[:dance_event_id], user: params[:user_id]).destroy
-
-    redirect_to dance_events_url, notice: "Dance event participant was successfully destroyed."
+    participation = DanceEventParticipant.find(params[:id])
+    notice = if participation.destroy
+               "#{participation.user.email} was successfully unregistered."
+             else
+               "Dance event participant could not be destroyed."
+             end
+    redirect_to dance_event_url(participation.dance_event), notice:
   end
 
   private

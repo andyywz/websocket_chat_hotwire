@@ -1,0 +1,6 @@
+<li id="<%= dom_id dance_event_participant.user %>">
+  <%= dance_event_participant.user.username %>
+  <% if @dance_event.organizer == current_user %>
+    <%= button_to "Unregister", dance_event_participant, method: :delete %>
+  <% end %>
+</li>
