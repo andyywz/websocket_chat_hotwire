@@ -1,8 +1,8 @@
 <%- input_label_classes = "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-<%- input_classes = "mb-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" %>
+<%- input_classes = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" %>
 <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-  <%= form_with model: resource, url: session_path(resource_name) do |f| %>
-    <h5 class="mb-6 text-xl font-medium text-gray-900 dark:text-white">Sign in</h5>
+  <h5 class="mb-6 text-xl font-medium text-gray-900 dark:text-white">Sign in</h5>
+  <%= form_with model: resource, url: session_path(resource_name), class: "space-y-4 md:space-y-6" do |f| %>
     <div>
       <%= f.label :login, "Email/Username", class: input_label_classes %>
       <%= f.text_field :login, class: input_classes, required: true %>
@@ -11,14 +11,16 @@
       <%= f.label :password, "Password", class: input_label_classes %>
       <%= f.password_field :password, class: input_classes, required: true %>
     </div>
-    <div class="flex items-start">
+    <div class="flex items-center justify-between">
       <div class="flex items-start">
         <div class="flex items-center h-5">
           <%= f.check_box :remember, class: "w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" %>
         </div>
-        <%= f.label :remember, "Remember me", class: "ml-2 text-sm font-medium text-gray-900 dark:text-gray-300" %>
+        <div class="ml-3 text-sm">
+          <%= f.label :remember, "Remember me", class: "text-gray-900 dark:text-gray-300" %>
+        </div>
       </div>
-      <%= link_to "Forgot your password?", new_password_path(resource_name), class: "ml-2 mb-6 text-sm text-blue-700 hover:underline dark:text-blue-500" %>
+      <%= link_to "Forgot your password?", new_password_path(resource_name), class: "text-sm font-medium text-blue-700 hover:underline dark:text-blue-500" %>
     </div>
     <%= f.submit "Submit", class: "mb-2 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
     <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
