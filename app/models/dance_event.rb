@@ -9,6 +9,7 @@
 #  end_date    :date
 #  name        :string           not null
 #  start_date  :date
+#  tags        :text             default([]), is an Array
 #  website     :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -16,6 +17,7 @@
 #
 # Indexes
 #
+#  index_dance_events_on_tags     (tags) USING gin
 #  index_dance_events_on_user_id  (user_id)
 #
 # Foreign Keys
@@ -32,6 +34,10 @@ class DanceEvent < ApplicationRecord
   has_many :instructors, through: :dance_event_instructors, source: :user
 
   validates :country, presence: true
+
+  scope :tagged_one_of, ->(tags) { tags ? where("tags && ARRAY[?]::varchar[]", tags) : all }
+  scope :tagged_all_of, ->(tags) { tags ? where("tags @> ARRAY[?]::varchar[]", tags) : all }
+
   def location
     city ? "#{city}, #{country}" : country
   end
