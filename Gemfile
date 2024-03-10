@@ -62,6 +62,7 @@ group :development do
   gem "htmlbeautifier"
   gem "syntax_tree"
   gem "web-console"
+  gem "annotate"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
