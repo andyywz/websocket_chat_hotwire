@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: dance_event_participants
+#
+#  id             :bigint           not null, primary key
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  dance_event_id :bigint           not null
+#  user_id        :bigint           not null
+#
+# Indexes
+#
+#  index_dance_event_participants_on_dance_event_id              (dance_event_id)
+#  index_dance_event_participants_on_dance_event_id_and_user_id  (dance_event_id,user_id) UNIQUE
+#  index_dance_event_participants_on_user_id                     (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (dance_event_id => dance_events.id)
+#  fk_rails_...  (user_id => users.id)
+#
 require "rails_helper"
 
 RSpec.describe DanceEventParticipant do
@@ -6,8 +27,8 @@ RSpec.describe DanceEventParticipant do
     dance_event = create(:dance_event, organizer: user)
 
     dance_event.participants = [user]
-    expect { dance_event.participants.push(user) }.to raise_error(ActiveRecord::RecordInvalid)
-
-    # expect(dance_event.errors[:message]).to eq("can only have 1 registration per dance event")
+    expect do
+      dance_event.participants.push(user)
+    end.to raise_error("Validation failed: User is already registered to participate in this dance event")
   end
 end
