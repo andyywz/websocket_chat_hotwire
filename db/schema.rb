@@ -44,7 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_10_225053) do
     t.string "city"
     t.string "website"
     t.bigint "user_id", null: false
-    t.text "tags", default: [], array: true
+    t.string "tags", default: [], array: true
     t.index ["tags"], name: "index_dance_events_on_tags", using: :gin
     t.index ["user_id"], name: "index_dance_events_on_user_id"
   end

@@ -5,6 +5,9 @@ class DanceEventsController < ApplicationController
   # GET /dance_events or /dance_events.json
   def index
     @dance_events = DanceEvent.all
+    return if params[:search].blank?
+
+    @dance_events = DanceEvent.search(params[:search])
   end
 
   # GET /dance_events/1 or /dance_events/1.json
@@ -28,10 +31,10 @@ class DanceEventsController < ApplicationController
     respond_to do |format|
       if @dance_event.save
         format.html { redirect_to dance_event_url(@dance_event), notice: "Dance event was successfully created." }
-        format.json { render :show, status: :created, location: @dance_event }
+        # format.json { render :show, status: :created, location: @dance_event }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @dance_event.errors, status: :unprocessable_entity }
+        # format.json { render json: @dance_event.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -41,10 +44,10 @@ class DanceEventsController < ApplicationController
     respond_to do |format|
       if @dance_event.update(dance_event_params)
         format.html { redirect_to dance_event_url(@dance_event), notice: "Dance event was successfully updated." }
-        format.json { render :show, status: :ok, location: @dance_event }
+        # format.json { render :show, status: :ok, location: @dance_event }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @dance_event.errors, status: :unprocessable_entity }
+        # format.json { render json: @dance_event.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -55,7 +58,7 @@ class DanceEventsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to dance_events_url, notice: "Dance event was successfully destroyed." }
-      format.json { head :no_content }
+      # format.json { head :no_content }
     end
   end
 
@@ -69,7 +72,7 @@ class DanceEventsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def dance_event_params
     params.fetch(:dance_event, {}).permit(
-      :name, :description, :start_date, :end_date, :country, :city, :website
+      :name, :description, :start_date, :end_date, :country, :city, :website, :search
     )
   end
 end

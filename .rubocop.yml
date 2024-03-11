@@ -183,8 +183,8 @@ Rspec/ExampleLength:
   Enabled: false
 
 RSpec/MultipleExpectations:
-  Description: "Prefer less than 3 expectations"
-  Max: 3
+  Description: "Prefer less than 5 expectations"
+  Max: 5
   Enabled: true
 
 # Bundler Cops

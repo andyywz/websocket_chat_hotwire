@@ -9,7 +9,7 @@
 #  end_date    :date
 #  name        :string           not null
 #  start_date  :date
-#  tags        :text             default([]), is an Array
+#  tags        :string           default([]), is an Array
 #  website     :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -35,10 +35,26 @@ class DanceEvent < ApplicationRecord
 
   validates :country, presence: true
 
-  scope :tagged_one_of, ->(tags) { tags ? where("tags && ARRAY[?]::varchar[]", tags) : all }
-  scope :tagged_all_of, ->(tags) { tags ? where("tags @> ARRAY[?]::varchar[]", tags) : all }
+  scope :tagged_one_of, ->(tags) { tags.present? ? where("tags && ARRAY[?]::varchar[]", tags) : all }
+  scope :tagged_all_of, ->(tags) { tags.present? ? where("tags @> ARRAY[?]::varchar[]", tags) : all }
+  scope :name_like, ->(name) { name.present? ? where("lower(name) like ?", "%#{name}%") : all }
+
+  def self.instructors_name_like(name)
+    name.present? ? left_joins(:instructors).where("lower(users.username) like ?", "%#{name}%") : all
+  end
+
+  def self.search(str)
+    str = str.downcase
+    instructors_name_like(str).or(tagged_one_of([str])).or(name_like(str))
+  end
 
   def location
     city ? "#{city}, #{country}" : country
+  end
+
+  def instructors_names
+    return "TBD" if instructors.blank?
+
+    instructors.pluck("username").join(", ")
   end
 end

@@ -11,6 +11,9 @@
     Dates: <time><%= @dance_event.start_date %></time> to <time><%= @dance_event.end_date %></time>
   </p>
   <p class="text-sm font-medium text-gray-800">Location: <%= @dance_event.location %></p>
+  <p class="text-sm font-medium text-gray-800">
+    Instructors: <%= @dance_event.instructors_names %>
+  </p>
   <p class="my-6 h-24 line-clamp-3 md:line-clamp-4 font-normal text-gray-500 dark:text-gray-400">
     <%= @dance_event.description %>
   </p>
