@@ -9,7 +9,12 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show, :edit, :update]
   resources :dance_events do
-    resources :dance_event_participants, only: [:new]
+    resources :dance_event_participants, only: [:new] do
+      collection do
+        get :upload
+        post :import
+      end
+    end
   end
 
   resources :dance_event_participants, only: [:create, :destroy]

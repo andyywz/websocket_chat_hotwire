@@ -89,5 +89,6 @@
     <%= link_to "Edit this dance event", edit_dance_event_path(@dance_event) %> |
     <%= button_to "Destroy this dance event", @dance_event, method: :delete %>
     <%= link_to "Add participants", new_dance_event_dance_event_participant_path(@dance_event) %>
+    <%= link_to "Import participants", upload_dance_event_dance_event_participants_path(@dance_event) %>
   </div>
 <% end %>

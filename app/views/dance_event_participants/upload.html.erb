@@ -1,0 +1,5 @@
+<h2>Upload user registration</h2>
+<%= form_tag import_dance_event_dance_event_participants_path, method: :post, multipart: true do %>
+  <%= file_field_tag :file, accept: ".csv" %>
+  <%= submit_tag "Import" %>
+<% end %>

@@ -52,6 +52,7 @@ Metrics/BlockLength:
     - draw
     - configure
     - group
+    - resources
 
 # Style Cops
 
