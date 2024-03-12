@@ -76,4 +76,8 @@ class DanceEvent < ApplicationRecord
 
     instructors.pluck("username").join(", ")
   end
+
+  def involves(user)
+    organizer == user || instructors.include?(user) || participants.include?(user)
+  end
 end

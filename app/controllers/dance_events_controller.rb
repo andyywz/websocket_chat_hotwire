@@ -12,6 +12,10 @@ class DanceEventsController < ApplicationController
 
   # GET /dance_events/1 or /dance_events/1.json
   def show
+    unless @dance_event.published || @dance_event.involves(current_user)
+      return redirect_to dance_events_path, notice: "404 Not Found"
+    end
+
     @participants = @dance_event.dance_event_participants.includes(:user)
   end
 
@@ -21,7 +25,13 @@ class DanceEventsController < ApplicationController
   end
 
   # GET /dance_events/1/edit
-  def edit; end
+  def edit
+    unless @dance_event.organizer == current_user
+      return redirect_to dance_events_path, notice: "401 Unauthorized"
+    end
+
+    render :edit
+  end
 
   # POST /dance_events or /dance_events.json
   def create

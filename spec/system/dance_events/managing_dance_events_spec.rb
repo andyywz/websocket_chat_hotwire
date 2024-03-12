@@ -121,7 +121,7 @@ describe "Managing Dance Events" do
     end
   end
 
-  describe "Dance event create page" do
+  describe "Dance Event create page" do
     it "user can create dance event" do
       sign_in_default_user
       click_link "New dance event"
@@ -150,102 +150,189 @@ describe "Managing Dance Events" do
     end
   end
 
-  it "user can view dance event details" do
-    user = sign_in_default_user
-    test_event = create(
-      :dance_event,
-      name: "test event",
-      organizer: user,
-      start_date: Time.zone.today,
-      end_date: Date.tomorrow,
-      description: "this test event will be the best test event",
-      city: "NY",
-      country: "USA",
-    )
+  describe "Dance Event show page" do
+    context "when page is not published" do
+      it "redirects an uninvolved user" do
+        sign_in_default_user
+        organizer = build(:user)
+        test_event = create(
+          :dance_event,
+          organizer:,
+          country: "USA",
+          published: false,
+        )
 
-    visit dance_event_path(test_event)
+        visit dance_event_path(test_event)
 
-    expect(page).to have_content(test_event.name)
-    expect(page).to have_content("Organizer: #{test_event.organizer.username}")
-    expect(page).to have_content("Dates: #{test_event.start_date} to #{test_event.end_date}")
-    expect(page).to have_content("Location: #{test_event.location}")
-    expect(page).to have_content(test_event.description)
+        expect(page).to have_content("404 Not Found")
+        expect(page).to have_current_path(dance_events_path)
+      end
+
+      it "allows the organizer to view the page" do
+        organizer = sign_in_default_user
+        test_event = create(
+          :dance_event,
+          organizer:,
+          country: "USA",
+          published: false,
+        )
+
+        visit dance_event_path(test_event)
+
+        expect(page).to have_current_path(dance_event_path(test_event))
+      end
+
+      it "allows participants to view the page" do
+        user = sign_in_default_user
+        test_event = create(
+          :dance_event,
+          organizer: build(:user),
+          country: "USA",
+          published: false,
+          participants: [user],
+        )
+
+        visit dance_event_path(test_event)
+
+        expect(page).to have_current_path(dance_event_path(test_event))
+      end
+
+      it "allows instructors to view the page" do
+        user = sign_in_default_user
+        test_event = create(
+          :dance_event,
+          organizer: build(:user),
+          country: "USA",
+          published: false,
+          instructors: [user],
+        )
+
+        visit dance_event_path(test_event)
+
+        expect(page).to have_current_path(dance_event_path(test_event))
+      end
+    end
+
+    it "users can view dance event details" do
+      user = sign_in_default_user
+      test_event = create(
+        :dance_event,
+        name: "test event",
+        organizer: user,
+        start_date: Time.zone.today,
+        end_date: Date.tomorrow,
+        description: "this test event will be the best test event",
+        city: "NY",
+        country: "USA",
+      )
+
+      visit dance_event_path(test_event)
+
+      expect(page).to have_content(test_event.name)
+      expect(page).to have_content("Organizer: #{test_event.organizer.username}")
+      expect(page).to have_content("Dates: #{test_event.start_date} to #{test_event.end_date}")
+      expect(page).to have_content("Location: #{test_event.location}")
+      expect(page).to have_content(test_event.description)
+    end
+
+    it "users can view dance event instructors" do
+      user = sign_in_default_user
+      mickey = create(:user, username: "mickey")
+      kelly = create(:user, username: "kelly")
+      test_event = create(
+        :dance_event,
+        name: "test event",
+        organizer: user,
+        start_date: Time.zone.today,
+        end_date: Date.tomorrow,
+        description: "this test event will be the best test event",
+        city: "NY",
+        country: "USA",
+        instructors: [mickey, kelly],
+      )
+
+      visit dance_event_path(test_event)
+
+      expect(page).to have_content(test_event.name)
+      expect(page).to have_content("Instructors: #{mickey.username}, #{kelly.username}")
+    end
+
+    it "organizer can destroy existing dance events" do
+      user = sign_in_default_user
+      test_event = create(
+        :dance_event,
+        name: "test event",
+        organizer: user,
+        start_date: Time.zone.today,
+        end_date: Date.tomorrow,
+        description: "this test event will be the best test event",
+        city: "NY",
+        country: "USA",
+      )
+
+      visit dance_event_path(test_event)
+      click_button "Destroy this dance event"
+
+      expect(page).to have_content("Dance event was successfully destroyed.")
+      expect(page).not_to have_content("test event")
+    end
+
+    it "non-organizers cannot see dance event modification buttons" do
+      test_event = create(
+        :dance_event,
+        name: "test event",
+        organizer: create(:user, :test),
+      )
+      sign_in_as(create(:user, email: "test2@test.com", username: "test2", password: "password"))
+      visit dance_event_path(test_event)
+
+      expect(page).not_to have_content("Destroy this dance event")
+      expect(page).not_to have_content("Edit this dance event")
+    end
   end
 
-  it "user can view dance event instructors" do
-    user = sign_in_default_user
-    mickey = create(:user, username: "mickey")
-    kelly = create(:user, username: "kelly")
-    test_event = create(
-      :dance_event,
-      name: "test event",
-      organizer: user,
-      start_date: Time.zone.today,
-      end_date: Date.tomorrow,
-      description: "this test event will be the best test event",
-      city: "NY",
-      country: "USA",
-      instructors: [mickey, kelly],
-    )
+  describe "Dance Event edit page" do
+    it "non-organizer are redirected to the show page when attempting to force browse" do
+      sign_in_default_user
+      organizer = build(:user)
+      test_event = create(
+        :dance_event,
+        name: "test event",
+        organizer:,
+        start_date: Time.zone.today,
+        end_date: Date.tomorrow,
+        description: "this test event will be the best test event",
+        city: "NY",
+        country: "USA",
+        published: false,
+      )
 
-    visit dance_event_path(test_event)
+      visit edit_dance_event_path(test_event)
 
-    expect(page).to have_content(test_event.name)
-    expect(page).to have_content("Instructors: #{mickey.username}, #{kelly.username}")
-  end
+      expect(page).to have_content("401 Unauthorized")
+      expect(page).to have_current_path(dance_events_path)
+    end
 
-  it "user can update dance event details" do
-    user = sign_in_default_user
-    test_event = create(
-      :dance_event,
-      name: "test event",
-      organizer: user,
-      start_date: Time.zone.today,
-      end_date: Date.tomorrow,
-      description: "this test event will be the best test event",
-      city: "NY",
-      country: "USA",
-    )
+    it "organizer can update dance event details" do
+      user = sign_in_default_user
+      test_event = create(
+        :dance_event,
+        name: "test event",
+        organizer: user,
+        start_date: Time.zone.today,
+        end_date: Date.tomorrow,
+        description: "this test event will be the best test event",
+        city: "NY",
+        country: "USA",
+      )
 
-    visit dance_event_path(test_event)
-    click_link "Edit this dance event"
-    fill_in "Name", with: "new event name"
-    click_button "Update Dance event"
+      visit dance_event_path(test_event)
+      click_link "Edit this dance event"
+      fill_in "Name", with: "new event name"
+      click_button "Update Dance event"
 
-    expect(page).to have_content("Dance event was successfully updated.")
-    expect(page).to have_content("new event name")
-  end
-
-  it "user can destroy existing dance events" do
-    user = sign_in_default_user
-    test_event = create(
-      :dance_event,
-      name: "test event",
-      organizer: user,
-      start_date: Time.zone.today,
-      end_date: Date.tomorrow,
-      description: "this test event will be the best test event",
-      city: "NY",
-      country: "USA",
-    )
-
-    visit dance_event_path(test_event)
-    click_button "Destroy this dance event"
-
-    expect(page).to have_content("Dance event was successfully destroyed.")
-    expect(page).not_to have_content("test event")
-  end
-
-  it "non-organizers cannot access dance event modification buttons" do
-    test_event = create(
-      :dance_event,
-      name: "test event",
-      organizer: create(:user, :test),
-    )
-    sign_in_as(create(:user, email: "test2@test.com", username: "test2", password: "password"))
-    visit dance_event_path(test_event)
-
-    expect(page).not_to have_content("Destroy this dance event")
-    expect(page).not_to have_content("Edit this dance event")
+      expect(page).to have_content("Dance event was successfully updated.")
+      expect(page).to have_content("new event name")
+    end
   end
 end

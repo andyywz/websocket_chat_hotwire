@@ -2,7 +2,6 @@
   <% if dance_event.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(dance_event.errors.count, "error") %> prohibited this dance_event from being saved:</h2>
-
       <ul>
         <% dance_event.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -10,29 +9,23 @@
       </ul>
     </div>
   <% end %>
-
   <div>
     <%= form.label :name %>
     <%= form.text_field :name %>
-
     <%= form.label :description %>
     <%= form.text_area :description %>
-    
     <%= form.label :start_date %>
     <%= form.date_field :start_date %>
-
     <%= form.label :end_date %>
     <%= form.date_field :end_date %>
-
     <%= form.label :country %>
     <%= form.text_field :country %>
-
     <%= form.label :city %>
     <%= form.text_field :city %>
-    
     <%= form.label :website %>
     <%= form.text_field :website %>
-
+    <%= form.label :published %>
+    <%= form.check_box :published %>
     <%= form.submit %>
   </div>
 <% end %>
