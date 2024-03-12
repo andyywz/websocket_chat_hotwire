@@ -4,10 +4,10 @@ class DanceEventsController < ApplicationController
 
   # GET /dance_events or /dance_events.json
   def index
-    @dance_events = DanceEvent.all
+    @dance_events = DanceEvent.viewable(current_user)
     return if params[:search].blank?
 
-    @dance_events = DanceEvent.search(params[:search])
+    @dance_events = DanceEvent.viewable(current_user).search(params[:search])
   end
 
   # GET /dance_events/1 or /dance_events/1.json

@@ -40,6 +40,23 @@ class DanceEvent < ApplicationRecord
   scope :tagged_one_of, ->(tags) { tags.present? ? where("tags && ARRAY[?]::varchar[]", tags) : all }
   scope :tagged_all_of, ->(tags) { tags.present? ? where("tags @> ARRAY[?]::varchar[]", tags) : all }
   scope :name_like, ->(name) { name.present? ? where("lower(name) like ?", "%#{name}%") : all }
+  scope :published, -> { where(published: true) }
+
+  def self.is_organizer(user)
+    where(organizer: user)
+  end
+
+  def self.is_instructor(user)
+    DanceEventInstructor.where(user_id: user).pluck(:dance_event_id)
+  end
+
+  def self.is_participant(user)
+    DanceEventParticipant.where(user_id: user).pluck(:dance_event_id)
+  end
+
+  def self.viewable(user)
+    published.or(is_organizer(user)).or(where(id: is_instructor(user) + is_participant(user)))
+  end
 
   def self.instructors_name_like(name)
     name.present? ? left_joins(:instructors).where("lower(users.username) like ?", "%#{name}%") : all

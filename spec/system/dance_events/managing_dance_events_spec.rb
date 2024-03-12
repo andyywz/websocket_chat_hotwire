@@ -6,13 +6,51 @@ describe "Managing Dance Events" do
   end
 
   describe "Dance Events list page" do
-    it "user can view the full list of dance events" do
-      user = sign_in_default_user
-      test_events = create_list(:dance_event, 6, organizer: user)
+    it "user can view all published dance events" do
+      sign_in_default_user
+      organizer = build(:user)
+      test_events = create_list(:dance_event, 6, organizer:, published: true)
+      unpublished_event = create(:dance_event, organizer:, published: false)
 
       visit root_path
 
       test_events.each { |ev| expect(page).to have_content(ev.name) }
+      expect(page).not_to have_content(unpublished_event.name)
+    end
+
+    it "user can view all unpublished events that they are organizing" do
+      user = sign_in_default_user
+      viewable_unpublished_event = create(:dance_event, organizer: user, published: false)
+      unpublished_event = create(:dance_event, organizer: build(:user), published: false)
+
+      visit root_path
+
+      expect(page).to have_content(viewable_unpublished_event.name)
+      expect(page).not_to have_content(unpublished_event.name)
+    end
+
+    it "user can view all unpublished events that they are participating" do
+      organizer = build(:user)
+      user = sign_in_default_user
+      viewable_unpublished_event = create(:dance_event, organizer:, published: false, participants: [user])
+      unpublished_event = create(:dance_event, organizer:, published: false)
+
+      visit root_path
+
+      expect(page).to have_content(viewable_unpublished_event.name)
+      expect(page).not_to have_content(unpublished_event.name)
+    end
+
+    it "user can view all unpublished events that they are instructing" do
+      organizer = build(:user)
+      user = sign_in_default_user
+      viewable_unpublished_event = create(:dance_event, organizer:, published: false, instructors: [user])
+      unpublished_event = create(:dance_event, organizer:, published: false)
+
+      visit root_path
+
+      expect(page).to have_content(viewable_unpublished_event.name)
+      expect(page).not_to have_content(unpublished_event.name)
     end
 
     describe "user can filter the list of dance events" do
@@ -83,19 +121,33 @@ describe "Managing Dance Events" do
     end
   end
 
-  it "user can create dance event" do
-    sign_in_default_user
-    click_link "New dance event"
-    fill_in "Name", with: "ILHC"
-    fill_in "Description", with: "This is gonna be great!"
-    fill_in "Start date", with: Time.zone.today
-    fill_in "End date", with: Date.tomorrow
-    fill_in "Country", with: "USA"
-    fill_in "City", with: "New York"
-    fill_in "Website", with: "www.website.com"
-    click_button "Create Dance event"
+  describe "Dance event create page" do
+    it "user can create dance event" do
+      sign_in_default_user
+      click_link "New dance event"
+      fill_in "Name", with: "ILHC"
+      fill_in "Description", with: "This is gonna be great!"
+      fill_in "Start date", with: Time.zone.today
+      fill_in "End date", with: Date.tomorrow
+      fill_in "Country", with: "USA"
+      fill_in "City", with: "New York"
+      fill_in "Website", with: "www.website.com"
+      click_button "Create Dance event"
 
-    expect(page).to have_content("Dance event was successfully created")
+      expect(page).to have_content("Dance event was successfully created")
+    end
+
+    it "by default creates an unpublished event" do
+      sign_in_default_user
+      click_link "New dance event"
+      fill_in "Name", with: "ILHC"
+      fill_in "Country", with: "USA"
+
+      expect do
+        click_button "Create Dance event"
+      end.to change(DanceEvent.all, :count).from(0).to(1)
+        .and not_change(DanceEvent.published, :count)
+    end
   end
 
   it "user can view dance event details" do
