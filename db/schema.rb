@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_11_044423) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_12_041006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,6 +73,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_044423) do
     t.string "website"
     t.bigint "user_id", null: false
     t.string "tags", default: [], array: true
+    t.boolean "published", default: false
+    t.index ["published"], name: "index_dance_events_on_published"
     t.index ["tags"], name: "index_dance_events_on_tags", using: :gin
     t.index ["user_id"], name: "index_dance_events_on_user_id"
   end

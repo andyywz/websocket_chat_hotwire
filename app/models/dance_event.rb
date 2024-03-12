@@ -8,6 +8,7 @@
 #  description :text
 #  end_date    :date
 #  name        :string           not null
+#  published   :boolean          default(FALSE)
 #  start_date  :date
 #  tags        :string           default([]), is an Array
 #  website     :string
@@ -17,8 +18,9 @@
 #
 # Indexes
 #
-#  index_dance_events_on_tags     (tags) USING gin
-#  index_dance_events_on_user_id  (user_id)
+#  index_dance_events_on_published  (published)
+#  index_dance_events_on_tags       (tags) USING gin
+#  index_dance_events_on_user_id    (user_id)
 #
 # Foreign Keys
 #
