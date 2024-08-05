@@ -19,6 +19,9 @@
     ---
   </td>
   <td class="px-6 py-4">
+    <%= dance_event_participant.status %>
+  </td>
+  <td class="px-6 py-4">
     <div class="flex items-center">
       <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
       <% if @dance_event.organizer == current_user %>
@@ -27,8 +30,5 @@
         ---
       <% end %>
     </div>
-  </td>
-  <td class="px-6 py-4">
-    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a>
   </td>
 </tr>
